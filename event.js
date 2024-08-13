@@ -1,11 +1,16 @@
 const apiUrl = 'http://127.0.0.1:5000';
 const eventEndpoint = `${apiUrl}/events`
+// const pastEventEndpoint = `${apiUrl}/past_events`
+let filteredEvents = [];
+const oneDayInSeconds = 24 * 60 * 60; // 24 hours in seconds
 events = [];
 
 fetch(eventEndpoint)
     .then((response) => response.json())
-    .then((events) => {
-        displayUFCEvents(events);
+    .then((data) => {
+        events = data
+        filterEvents(false);
+        displayUFCEvents(filteredEvents);
     })
 
 function displayUFCEvents(events) {
@@ -22,7 +27,6 @@ function displayUFCEvents(events) {
             const date = new Date(event.date * 1000);
             const month = date.toLocaleString('default', {month: 'long'});
             const day = date.getDate();
-            console.log(day);
             const year = date.getFullYear();
 
             const formattedDate = `${month}-${day}-${year}`;
@@ -39,6 +43,40 @@ function displayUFCEvents(events) {
     } catch (error) {
         console.error('Error fetching UFC events:', error);
     }   
+}
+
+function filterEvents(upcoming) {
+    const currentTimePlusOneDay = Math.floor(Date.now() / 1000) + oneDayInSeconds;
+    if (upcoming) {
+        filteredEvents = events.filter(event => event.date >= currentTimePlusOneDay);
+    } else {
+        filteredEvents = events.filter(event => event.date < currentTimePlusOneDay);
+    }
+}
+
+document.getElementById('upcomingBtn').addEventListener('click', () => {
+    filterEvents(true);
+    displayUFCEvents(filteredEvents);
+    updateActiveButton('upcoming');
+});
+
+document.getElementById('pastBtn').addEventListener('click', () => {
+    filterEvents(false);
+    displayUFCEvents(filteredEvents);
+    updateActiveButton('past');
+});
+
+function updateActiveButton(type) {
+    const upcomingBtn = document.getElementById('upcomingBtn');
+    const pastBtn = document.getElementById('pastBtn');
+
+    if (type === 'upcoming') {
+        upcomingBtn.classList.add('active');
+        pastBtn.classList.remove('active');
+    } else {
+        upcomingBtn.classList.remove('active');
+        pastBtn.classList.add('active');
+    }
 }
 
 window.onload = displayUFCEvents(events);
