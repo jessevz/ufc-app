@@ -17,7 +17,7 @@ class SimpleSQLiteDB:
             CREATE TABLE IF NOT EXISTS Event (
                 event_ID INTEGER PRIMARY KEY,
                 event_name TEXT NOT NULL,
-                event_date TEXT NOT NULL,
+                event_date INTEGER NOT NULL,
                 location TEXT NOT NULL
             )
         '''
