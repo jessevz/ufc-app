@@ -19,6 +19,9 @@ class Event:
         self.fights = []
         self.location = location
 
+    def add_fight(self, fight):
+        self.fights.append(fight)
+
     def to_json(self):
         fights_dict = [fight.to_json() for fight in self.fights]
         return {"id": self.id, "name": self.name, "date": self.date, 
