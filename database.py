@@ -56,6 +56,17 @@ class SimpleSQLiteDB:
         self.connection.commit()
 
 #access data
+    def retrieve_upcoming_events(self):
+        query = "SELECT * FROM Event WHERE event_date > strftime('%s', 'now', '+1 day');"
+        cursor = self.connection.execute(query)
+        return cursor.fetchall()
+
+    def retrieve_past_events(self):
+        query = "SELECT * FROM Event WHERE event_date < strftime('%s', 'now', '+1 day');"
+        cursor = self.connection.execute(query)
+        return cursor.fetchall()
+
+
     def retrieve_events(self):
         query = 'SELECT * FROM Event'
         cursor = self.connection.execute(query)
