@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" # Host port 3000 maps to container port 80
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000" # Host port 5000 maps to container port 5000
+    volumes:
+      - ./backend/data:/app/data # Persist SQLite database
+    environment:
+      - FLASK_ENV=production
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

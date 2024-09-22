@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFC Events</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>UFC Events</h1>
+        <div class="controls">
+            <button id="upcomingBtn">Upcoming Events</button>
+            <button id="pastBtn"class="active">Past Events</button>
+            <button id="newFightsBtn">New fights</button>
+            <input type="text" id="searchInput" placeholder="Search for events...">
+        </div>
+    </header>
+
+    <table id="ufc-events-table">
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>watch</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be populated dynamically by JavaScript -->
+        </tbody>
+    </table>
+
+    <script src="event.js"></script>
+</body>
+</html>
